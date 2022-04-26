@@ -108,12 +108,10 @@ void Dist0322AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
    
-//    inputDB.reset(sampleRate, 0.1f);
-//    driveDB.reset(sampleRate, 0.1f);
-//    mix.reset(sampleRate, 0.1f);
-//    outputDB.reset(sampleRate, 0.1f);
-    
-
+    inputDB.reset(sampleRate, 0.02f);
+    driveDB.reset(sampleRate, 0.02f);
+    mix.reset(sampleRate, 0.02f);
+    outputDB.reset(sampleRate, 0.02f);
 }
 
 void Dist0322AudioProcessor::releaseResources()
@@ -248,19 +246,19 @@ void Dist0322AudioProcessor::parameterChanged(const juce::String& parameterID, f
 {
     if (parameterID == "INPUT")
     {
-        inputDB = newValue;
+        inputDB.setTargetValue(newValue);
     }
     if (parameterID == "OUTPUT")
     {
-        outputDB = newValue;
+        outputDB.setTargetValue(newValue);
     }
     if (parameterID == "DRIVE")
     {
-        driveDB = newValue;
+        driveDB.setTargetValue(newValue);
     }
     if (parameterID == "MIX")
     {
-        mix = newValue/100;
+        mix.setTargetValue(newValue/100);
     }
 }
 

@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="aQAHo3" name="Dist0322" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginFormats="buildAU,buildVST3"
-              pluginManufacturer="F.W" bundleIdentifier="com.fw.Dist0322" pluginName="fwClipper">
+              pluginManufacturer="F.W" bundleIdentifier="com.fw.Dist0322" pluginName="F.W Clipper">
   <MAINGROUP id="wQlfjv" name="Dist0322">
     <GROUP id="{F6AC8AB0-56A8-897B-95F3-EE38BF276F13}" name="Assets">
       <FILE id="pONKRR" name="CustomLookAndFeel.cpp" compile="1" resource="0"
@@ -29,8 +29,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="fwClipper"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="fwClipper"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="FWClipper"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="FWClipper"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../../../Applications/JUCE/modules"/>

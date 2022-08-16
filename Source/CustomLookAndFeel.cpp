@@ -10,60 +10,42 @@
 
 #include "CustomLookAndFeel.h"
 
-CustomLookAndFeel::CustomLookAndFeel() {};
-CustomLookAndFeel::~CustomLookAndFeel() {};
-
-void CustomLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-                                          const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider)
+CustomDial::CustomDial()
 {
-    auto radius = (float) juce::jmin (width / 2, height / 2) - 4.0f;
-    auto centreX = (float) x + (float) width  * 0.5f;
-    auto centreY = (float) y + (float) height * 0.5f;
-    auto rx = centreX - radius;
-    auto ry = centreY - radius;
-    auto rw = radius * 2.0f;
-    auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-    auto lineW = juce::jmin (8.0f, radius * 0.5f);
-    auto arcRadius = radius - lineW * 0.5f;
-    auto bounds = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (10);
     
-    if (slider.isEnabled())
-    {
-        juce::Path valueArc;
-        valueArc.addCentredArc (bounds.getCentreX(),
-                                bounds.getCentreY(),
-                                arcRadius,
-                                arcRadius,
-                                0.0f,
-                                rotaryStartAngle,
-                                angle,
-                                true);
-
-        g.setColour (juce::Colour::fromFloatRGBA (0.34f, 0.64f, 0.56f, 1.0f));
-
-        g.strokePath (valueArc, juce::PathStrokeType (lineW, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
-    }
-    
-    // fill knob
-    juce::Rectangle<float> knobArea(rx, ry, rw, rw);
-    g.setColour (juce::Colour::fromFloatRGBA (0.34f, 0.64f, 0.56f, 1.0f));
-    g.fillEllipse (knobArea.reduced(5.0f));
-     
-    // outline
-    g.setColour (juce::Colour::fromFloatRGBA (0.34f, 0.64f, 0.56f, 1.0f));
-    g.drawEllipse (rx, ry, rw, rw, 2.0f);
-    
-    //Pointer
-    juce::Path p;
-    auto pointerLength = radius * 0.33f;
-    auto pointerThickness = 2.0f;
-    p.addRectangle (-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
-    p.applyTransform (juce::AffineTransform::rotation (angle).translated (centreX, centreY));
-    g.setColour (juce::Colour::fromFloatRGBA (0.08f, 0.08f, 0.08f, 1.0f));
-    g.fillPath (p);
 }
 
-juce::Label* CustomLookAndFeel::createSliderTextBox (juce::Slider& slider)
+void CustomDial::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
+                                  const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider)
+{
+    float diameter = fmin(width, height) * .7;
+    float radius = diameter * 0.5;
+    float centerX = x + width * 0.5;
+    float centerY = y + height * 0.5;
+    float rx = centerX - radius;
+    float ry = centerY -radius;
+    float angle = rotaryStartAngle + (sliderPos * (rotaryEndAngle - rotaryStartAngle));
+    
+    juce::Rectangle<float>dialArea(rx, ry, diameter, diameter);
+    g.setColour(juce::Colour::fromFloatRGBA(0.2941f, 0.4784f, 0.2784f, 1.0f).darker(0.2f));
+    g.fillEllipse(dialArea);
+    
+    g.setColour(juce::Colours::black.brighter(0.2f).withAlpha(0.1f));
+    g.drawEllipse(rx, ry, diameter, diameter, 3.0f);
+    
+    juce::Path dialTick;
+    g.setColour(juce::Colour::fromFloatRGBA(0.9f, 0.9f, 0.9f, 1).darker(0.2f));
+    dialTick.addRectangle(0, -radius + 6, 2.0f, radius * 0.3);
+    g.fillPath(dialTick, juce::AffineTransform::rotation(angle).translated(centerX, centerY));
+    
+    shadowProperties.radius = 24;
+    shadowProperties.offset = juce::Point<int>(-1,4);
+    shadowProperties.colour = juce::Colours::black.withAlpha(0.8f);
+    dialShadow.setShadowProperties(shadowProperties);
+    slider.setComponentEffect(&dialShadow);
+}
+
+juce::Label* CustomDial::createSliderTextBox (juce::Slider& slider)
 {
     auto* l = new juce::Label();
 
@@ -76,4 +58,3 @@ juce::Label* CustomLookAndFeel::createSliderTextBox (juce::Slider& slider)
 
     return l;
 }
-

@@ -13,15 +13,18 @@
 #include <JuceHeader.h>
 //#include "CustomColours.h"
 
-class CustomLookAndFeel : public juce::LookAndFeel_V4
+class CustomDial : public juce::LookAndFeel_V4
 {
 public:
-    CustomLookAndFeel();
-    ~CustomLookAndFeel();
-
+    CustomDial();
+    
     void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-                           const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider&) override;
-
+                           const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) override;
+    
     juce::Label* createSliderTextBox (juce::Slider& slider) override;
-
+private:
+    
+    
+    juce::DropShadow shadowProperties;
+    juce::DropShadowEffect dialShadow;
 };

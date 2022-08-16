@@ -18,6 +18,6 @@ public:
     ~Knob();
     
 private:
-    CustomLookAndFeel customLookAndFeel;
+    CustomDial customLookAndFeel;
 };
 

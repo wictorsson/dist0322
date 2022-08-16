@@ -50,7 +50,7 @@ private:
     // access the processor object that created it.
     Dist0322AudioProcessor& audioProcessor;
     //send parameter to constructor
-    CustomLookAndFeel customLookAndFeel;
+    CustomDial customLookAndFeel;
     
     lineComponent line;
    

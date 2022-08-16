@@ -18,11 +18,11 @@ Dist0322AudioProcessorEditor::Dist0322AudioProcessorEditor (Dist0322AudioProcess
     
     //Resizeable GUI
     setResizable (true, true);
-    const float ratio = 450.0/ 400.0;
-    setResizeLimits (450,  juce::roundToInt (450.0 / ratio),
-                         900, juce::roundToInt (900.0 / ratio));
+    const float ratio = 4.0/ 3.0;
+    setResizeLimits (470,  juce::roundToInt (470.0 / ratio),
+                         650, juce::roundToInt (650.0 / ratio));
     getConstrainer()->setFixedAspectRatio (ratio);
-    setSize (450, 400);
+    setSize (550, 550/ratio);
     
     //Knobs
     inputAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "INPUT", inputKnob);
@@ -81,10 +81,11 @@ Dist0322AudioProcessorEditor::Dist0322AudioProcessorEditor (Dist0322AudioProcess
     
     title.setText ("F.W CLIPPER v1.0", juce::dontSendNotification);
     title.setJustificationType(juce::Justification::left);
-    title.setColour(0x1000281, juce::Colour::fromFloatRGBA (0.96f, 1.0f, 0.89f, 1.0f));
-    title.setFont (juce::Font (12.0f));
+    title.setColour(0x1000281, juce::Colours::whitesmoke);
+    title.setFont (juce::Font (10.0f));
     title.setInterceptsMouseClicks(false, false);
     addAndMakeVisible (title);
+    
     addAndMakeVisible(scopeComponent);
     addAndMakeVisible (line);
 }
@@ -105,11 +106,14 @@ void Dist0322AudioProcessorEditor::paint (juce::Graphics& g)
 
 void Dist0322AudioProcessorEditor::resized()
 {
+    auto widthMargin = getWidth() * 0.12;
+    auto heightMargin = getHeight() * 0.1;
+    
     // child components
     juce::Rectangle<int> area = getLocalBounds();
     area.reduce(area.getWidth()* 0.05f, area.getHeight()* 0.1f);
     juce::Rectangle<int> lineArea = area.removeFromTop(area.getHeight()/4);
-    juce::Rectangle<int> titleArea = lineArea.removeFromTop(lineArea.getHeight()/6);
+    //juce::Rectangle<int> titleArea = lineArea.removeFromTop(lineArea.getHeight()/6);
     lineArea.reduce(lineArea.getWidth()* 0.05f, lineArea.getHeight()* 0.1f);
     juce::Rectangle<int> sliderArea = area.removeFromTop(area.getHeight()/2);
     sliderArea.reduce(sliderArea.getWidth()* 0.05f, sliderArea.getHeight()* 0.001f);
@@ -117,7 +121,9 @@ void Dist0322AudioProcessorEditor::resized()
     juce::Rectangle<int> driveSliderArea = sliderArea.removeFromLeft(sliderArea.getWidth()/3);
     juce::Rectangle<int> mixSliderArea = sliderArea.removeFromLeft(sliderArea.getWidth()/2);
 
-    title.setBounds(titleArea);
+    title.setBounds(widthMargin * 0.1, heightMargin * 0.05, 80, 30);
+   
+    //title.setBounds(titleArea);
     line.setBounds(lineArea);
     inputKnob.setBounds(inputSliderArea);
     driveKnob.setBounds(driveSliderArea);
